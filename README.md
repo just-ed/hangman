@@ -15,7 +15,7 @@ over with the player losing.
 Before running the program make sure you have **Ruby** installed on your machine.  
 Enter the line below:
 ```
-ruby viselitsa.rb
+ruby hangman.rb
 ```
 
 ## How to add new words
