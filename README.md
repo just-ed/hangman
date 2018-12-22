@@ -1,4 +1,4 @@
-The Hangman Game for Ruby
+# The Hangman Game for Ruby
 
 ## Game rules
 The word to guess is represented by a row of dashes, representing each letter of the word. In most variants, 
