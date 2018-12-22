@@ -79,7 +79,7 @@ class ResultPrinter
         result += item + " "
       # If not - show underscore
       else
-        result += "__ "
+        result += "_ "
       end
     end
 
