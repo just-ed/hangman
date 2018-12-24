@@ -52,10 +52,10 @@ class Game
 
   # Method for asking letter from player
   def ask_next_letter
-    valid_letters = %w(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+    valid_letters = 'a'..'z'
 
     # Prompt for player's input until the input occurs in valid_letters
-    letter = ""
+    letter = ''
     until valid_letters.include?(letter)
       print "\nEnter the next letter: "
       letter = STDIN.gets.downcase.chomp
