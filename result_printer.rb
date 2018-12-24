@@ -9,7 +9,7 @@ class ResultPrinter
 
     # Write the images from the files to @status_image
     # The index of the element in the array corresponds to the number of mistakes
-    until counter > 7
+    until counter > game.MAX_MISTAKES
       # Path to the file with so called images
       file_name = "#{__dir__}/image/#{counter}.txt"
 
@@ -48,19 +48,15 @@ class ResultPrinter
     # Print the image for the current number of made mistakes
     print_hangman(game.mistakes)
 
-    # If player lost - print a message about it and show the word
-    if game.status == -1
-      puts
-      puts "Game over :("
+    if game.status == :lost
+      # If player lost - print a message about it and show the word
+      puts "\nGame over :("
       puts "The word was: " + game.letters.join("")
-      puts
-    # If player won - congratulate
-    elsif game.status == 1
-      puts
-      puts "You won! Congratulations! :)"
-      puts
-    # If the game is not over, print the number of mistakes that are available to make
+    elsif game.status == :won
+      # If player won - congratulate
+      puts "\nYou won! Congratulations! :)"
     else
+      # If the game is not over, print the number of mistakes that are available to make
       if game.mistakes != 6
         puts "You have left: #{(7 - game.mistakes)} mistakes"
       else
@@ -74,11 +70,11 @@ class ResultPrinter
     result = ""
 
     letters.each do |item|
-      # Show the letter if it guessed
       if good_letters.include?(item)
+      # Show the letter if it guessed
         result += item + " "
-      # If not - show underscore
       else
+      # If not - show underscore
         result += "_ "
       end
     end
