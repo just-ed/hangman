@@ -2,8 +2,8 @@
 class WordReader
   # Method for getting the word from the file
   def read_from_file(file_name)
-    lines = File.readlines(file_name, "r:UTF-8")
+    lines = File.readlines(file_name)
     
-    lines.sample.downcase.chomp
+    lines.sample.chomp
   end
 end
