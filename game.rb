@@ -1,5 +1,6 @@
 # class that implements the process of the game
 class Game
+  MAX_MISTAKES = 7
   attr_reader :mistakes, :status, :letters, :good_letters, :bad_letters
 
   def initialize(word)
@@ -14,54 +15,70 @@ class Game
     # Array that contains wrong guesses
     @bad_letters = []
 
-    # Current status of the game
-    # status =   0 - the game continues
-    # status =   1 - victory
-    # status = - 1 - defeat
-    @status = 0
+    # Current status of the game - :in_progress, :won or :lost
+    @status = :in_progress
   end
 
-  # Method returns the hidden word as an array of letters
+  # Convert the word into array of letters
   def get_letters(word)
     word.encode('UTF-8').split("")
   end
+  
+  def repeated?(letter)
+    @good_letters.include?(letter) || @bad_letters.include?(letter)
+  end
+  
+  # Check if letter occurs in the word
+  def is_good?(letter)
+    @letters.include?(letter)
+  end
+    
+  def add_letter_to(letters, letter)
+    letters << letter
+  end
+  
+  def solved?
+    @letters.uniq.sort == @good_letters.uniq.sort
+  end
 
+  def lost?
+    @mistakes == MAX_MISTAKES
+  end
+  
+  def is_valid?(letter)
+    valid_letters = 'a'..'z'
+    valid_letters.include?(letter)
+  end
+  
   # Method for make decision what to do after the player's input
-  # Takes player's input as a parameter
   def next_step(letter)
     # Make sure if player has already won or lost or repeated the same letter
-    return if @status == -1 || @status == 1
-    return if @good_letters.include?(letter) || @bad_letters.include?(letter)
+    return if @status == :lost || @status == :won
+    return if repeated?(letter)
 
-    # If the letter occurs in the word - put the letter in good_letters
-    if @letters.include?(letter)
-      good_letters << letter
+    if is_good?(letter)
+      # If the letter occurs in the word - put the letter in good_letters
+      add_letter_to(@good_letters, letter)
 
-      # If all letters are guessed - player won!
-      @status = 1 if @letters.uniq.sort == @good_letters.uniq.sort
-
-    # Else if player made mistake - put the letter in bad_words and increment the number of mistakes
+      @status = :won if solved?
     else
-      @bad_letters << letter
+      # Else if player made a mistake - put the letter in bad_words and increment the number of mistakes
+      add_letter_to(@bad_letters, letter)
       @mistakes += 1
 
-      # If player made 7 mistakes - change the value of status to "-1" - player lost
-      @status = -1 if @mistakes == 7
+      @status = :lost if lost?
     end
   end
 
   # Method for asking letter from player
   def ask_next_letter
-    valid_letters = 'a'..'z'
-
     # Prompt for player's input until the input occurs in valid_letters
     letter = ''
-    until valid_letters.include?(letter)
+    until is_valid?(letter)
       print "\nEnter the next letter: "
       letter = STDIN.gets.downcase.chomp
     end
 
-    # Call next_step method and pass the letter entered by player
     next_step(letter)
   end
 end
