@@ -57,7 +57,7 @@ class Game
   end
 
   def lost?
-    @mistakes == MAX_MISTAKES
+    status == :lost
   end
 
   def in_progress?
@@ -85,7 +85,7 @@ class Game
       add_letter_to(@bad_letters, letter)
       @mistakes += 1
 
-      @status = :lost if lost?
+      @status = :lost if @mistakes >= max_mistakes
     end
   end
 
