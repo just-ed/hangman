@@ -1,4 +1,6 @@
-# The Hangman Game for Ruby
+The program written in Ruby 2.5.3
+
+# The Hangman Game
 
 ## Game rules
 The word to guess is represented by a row of dashes, representing each letter of the word. In most variants, 
